@@ -1,0 +1,158 @@
+-- SELECT EXISTS(SELECT 1 FROM views WHERE id_view = 'ENZOWBC9');
+-- insert into views(id_view, time_view, ip_view, id_action, data_view) values('7OEXWZ78', '00:08:58', '121.165.118.201', 1, '2018-08-01');
+
+--  insert into actions()
+
+-- Clear all
+delete from views_cats;
+delete from views;
+delete from goods_in_carts;
+delete from goods;
+delete from carts;
+delete from categories;
+
+delete from actions;
+delete from users;
+
+
+-- select * from views;
+-- select * from views_cats;
+-- select * from categories;
+-- select id_cat from categories where cat_name='canned_food'
+
+-- select * from goods;
+-- select * from users;
+
+-- select * from carts;
+
+-- 6.Сколько не оплаченных корзин имеется
+-- select count(*) from carts where pay is null
+
+-- 7. Какое количество пользователей совершали повторные покупки
+-- select count(*) as cnt from carts where pay is not null group by id_user having count(*)>1
+
+-- 	5. Товары из какой категории чаще всего покупают совместно с товаром из категории “semi_manufactures”
+-- select * from categories
+
+-- 4. Какое максимальное число запросов на сайт за астрономический час (c 00 минут 00 секунд до 59 минут 59 секунд)?
+-- select count(*) from (select * from views  where time_view>'00:00:00' and time_view<'00:59:59' order by data_view asc, time_view desc) as res
+-- select count(views.time_view) from views where (views.time_view>='09:00:00' and views.time_view<'09:59:59')
+
+-- SELECT dateadd(hour, datediff(hour, 0, time_view), 0) as TimeStampHour, Count(*)
+-- FROM views
+-- GROUP BY dateadd(hour, datediff(hour, 0, time_view), 0)
+-- ORDER BY dateadd(hour, datediff(hour, 0, time_view), 0);
+/*
+SELECT DATE_PART('hour',time_view), Count(*) as cnt
+FROM views
+GROUP BY DATE_PART('hour',time_view)
+ORDER BY cnt DESC LIMIT 1
+*/
+
+
+-- 3. В какое время суток чаще всего просматривают категорию “frozen_fish
+-- select views.id_view, views.time_view, categories.cat_name from views inner join views_cats on views_cats.id_view=views.id_view inner join categories on views_cats.id_cat=categories.id_cat where categories.cat_name='frozen_fish'
+/*
+SELECT 
+  SUM(CASE WHEN CAST(time_view AS Time) >= '08:00:00' AND CAST(time_view AS Time) < '10:00:00' THEN 1 ELSE 0 END) AS [8AM-10AM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '10:00:00' AND CAST(time_view AS Time) < '12:00:00' THEN 1 ELSE 0 END) AS [8AM-10AM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '12:00:00' AND CAST(time_view AS Time) < '14:00:00' THEN 1 ELSE 0 END) AS [10AM-12AM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '14:00:00' AND CAST(time_view AS Time) < '16:00:00' THEN 1 ELSE 0 END) AS [12PM-2PM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '16:00:00' THEN 1 ELSE 0 END)                                            AS [>4PM]
+FROM views*/
+-- GROUP BY Item;
+
+
+-- 2.
+-- 1. Посетители из какой страны чаще всего посещают сайт
+-- select count(*) as cnt, ip_view from views group by ip_view order by cnt desc limit 1; 
+
+
+
+
+
+-- SELECT EXISTS(SELECT 1 FROM views WHERE id_view = 'ENZOWBC9');
+-- insert into views(id_view, time_view, ip_view, id_action, data_view) values('7OEXWZ78', '00:08:58', '121.165.118.201', 1, '2018-08-01');
+
+--  insert into actions()
+
+-- Clear all
+/*
+delete from views_cats;
+delete from views;
+delete from goods_in_carts;
+delete from goods;
+delete from carts;
+delete from categories;
+
+delete from actions;
+delete from users;
+*/
+-- select * from views;
+-- select * from views_cats;
+-- select * from categories;
+-- select id_cat from categories where cat_name='canned_food'
+
+-- select * from goods;
+-- select * from users;
+
+-- select * from carts;
+
+-- 6.Сколько не оплаченных корзин имеется
+-- select count(*) from carts where pay is null
+
+-- 7. Какое количество пользователей совершали повторные покупки
+-- select count(*) as cnt from carts where pay is not null group by id_user having count(*)>1
+
+-- 	5. Товары из какой категории чаще всего покупают совместно с товаром из категории “semi_manufactures”
+-- select * from categories
+
+-- 4. Какое максимальное число запросов на сайт за астрономический час (c 00 минут 00 секунд до 59 минут 59 секунд)?
+-- select count(*) from (select * from views  where time_view>'00:00:00' and time_view<'00:59:59' order by data_view asc, time_view desc) as res
+
+-- 3. В какое время суток чаще всего просматривают категорию “frozen_fish
+-- select views.id_view, views.time_view, categories.cat_name from views inner join views_cats on views_cats.id_view=views.id_view inner join categories on views_cats.id_cat=categories.id_cat where categories.cat_name='frozen_fish'
+/*
+SELECT 
+  SUM(CASE WHEN CAST(time_view AS Time) >= '08:00:00' AND CAST(time_view AS Time) < '10:00:00' THEN 1 ELSE 0 END) AS [8AM-10AM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '10:00:00' AND CAST(time_view AS Time) < '12:00:00' THEN 1 ELSE 0 END) AS [8AM-10AM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '12:00:00' AND CAST(time_view AS Time) < '14:00:00' THEN 1 ELSE 0 END) AS [10AM-12AM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '14:00:00' AND CAST(time_view AS Time) < '16:00:00' THEN 1 ELSE 0 END) AS [12PM-2PM],
+  SUM(CASE WHEN CAST(time_view AS Time) >= '16:00:00' THEN 1 ELSE 0 END)                                            AS [>4PM]
+FROM views*/
+-- GROUP BY Item;
+
+-- 1. Посетители из какой страны чаще всего посещают сайт
+-- select count(*) as cnt, ip_view from views group by ip_view order by cnt desc limit 1; 
+
+-- 2. 
+-- select views.id_view, views.ip_view, views_cats.id_cat, categories.cat_name from views inner join views_cats on views_cats.id_view=views.id_view  inner join categories on views_cats.id_cat=categories.id_cat  where categories.cat_name='frozen_fish';
+
+-- 3.
+-- select views.time_view from views inner join views_cats on views_cats.id_view=views.id_view  inner join categories on views_cats.id_cat=categories.id_cat
+-- select  
+--     SUM(CASE WHEN CAST(views.time_view AS Time) >= '06:00:00' AND CAST(views.time_view AS Time) < '10:00:00' THEN 1 ELSE 0 END) as morning,
+--     SUM(CASE WHEN CAST(views.time_view AS Time) >= '10:00:00' AND CAST(views.time_view AS Time) < '18:00:00' THEN 1 ELSE 0 END) as day_t,
+--     SUM(CASE WHEN CAST(views.time_view AS Time) >= '18:00:00' AND CAST(views.time_view AS Time) < '00:00:00' THEN 1 ELSE 0 END)  as evening,
+--     SUM(CASE WHEN CAST(views.time_view AS Time) >= '00:00:00' AND CAST(views.time_view AS Time) < '06:00:00'  THEN 1 ELSE 0 END) as night
+-- from views inner join views_cats on views_cats.id_view=views.id_view  inner join categories on views_cats.id_cat=categories.id_cat 
+-- where categories.cat_name='frozen_fish';
+
+-- SELECT   DATEADD(MINUTE, DATEDIFF(MINUTE, '2000', aa.[date]) / 10 * 10, '2000')
+--                                                              AS [date_truncated],
+--          COUNT(*) AS [records_in_interval],
+--          AVG(aa.[value]) AS [average_value]
+-- FROM     [friib].[dbo].[archive_analog] AS aa
+-- -- WHERE aa.[date] > '1900-01-01'
+-- GROUP BY DATEADD(MINUTE, DATEDIFF(MINUTE, '2000', aa.[date]) / 10 * 10, '2000')
+-- ORDER BY [date_truncated]
+
+-- 5. 
+-- select views.ip_view , views_cats.id_cat, categories.cat_name from views inner join views_cats on views_cats.id_view=views.id_view  inner join categories on views_cats.id_cat=categories.id_cat where categories.cat_name='semi_manufactures';
+
+-- select categories.cat_name, count(views.ip_view) from views inner join views_cats on views_cats.id_view=views.id_view  inner join categories on views_cats.id_cat=categories.id_cat where categories.cat_name!='semi_manufactures' and ip_view='121.165.118.201' group by categories.cat_name ;
+
+
+
+
+

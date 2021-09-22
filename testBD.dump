@@ -1,0 +1,398 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: main_shema; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA main_shema;
+
+
+ALTER SCHEMA main_shema OWNER TO postgres;
+
+--
+-- Name: testSchema; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA "testSchema";
+
+
+ALTER SCHEMA "testSchema" OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: actions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.actions (
+    id_action integer NOT NULL,
+    act_name character(20)
+);
+
+
+ALTER TABLE public.actions OWNER TO postgres;
+
+--
+-- Name: carts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.carts (
+    id_cart integer NOT NULL,
+    id_user bigint,
+    created_at date,
+    pay integer
+);
+
+
+ALTER TABLE public.carts OWNER TO postgres;
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categories (
+    id_cat integer NOT NULL,
+    cat_name character(30),
+    id_subcat integer
+);
+
+
+ALTER TABLE public.categories OWNER TO postgres;
+
+--
+-- Name: categories_id_cat_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.categories ALTER COLUMN id_cat ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.categories_id_cat_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: goods; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.goods (
+    id_good integer NOT NULL,
+    good_name character(30),
+    price double precision,
+    id_cat integer
+);
+
+
+ALTER TABLE public.goods OWNER TO postgres;
+
+--
+-- Name: goods_in_carts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.goods_in_carts (
+    id integer NOT NULL,
+    id_good integer,
+    amount integer,
+    id_cart integer
+);
+
+
+ALTER TABLE public.goods_in_carts OWNER TO postgres;
+
+--
+-- Name: goods_in_carts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.goods_in_carts ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.goods_in_carts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id_user bigint NOT NULL,
+    last_ip character(15)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: views; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.views (
+    id_view character(8) NOT NULL,
+    time_view time without time zone,
+    ip_view character(15),
+    id_action integer,
+    data_view date
+);
+
+
+ALTER TABLE public.views OWNER TO postgres;
+
+--
+-- Name: views_cats; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.views_cats (
+    id integer NOT NULL,
+    id_view character(8),
+    id_cat integer
+);
+
+
+ALTER TABLE public.views_cats OWNER TO postgres;
+
+--
+-- Name: views_cats_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.views_cats ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.views_cats_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Data for Name: actions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.actions (id_action, act_name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: carts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.carts (id_cart, id_user, created_at, pay) FROM stdin;
+\.
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categories (id_cat, cat_name, id_subcat) FROM stdin;
+\.
+
+
+--
+-- Data for Name: goods; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.goods (id_good, good_name, price, id_cat) FROM stdin;
+\.
+
+
+--
+-- Data for Name: goods_in_carts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.goods_in_carts (id, id_good, amount, id_cart) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id_user, last_ip) FROM stdin;
+\.
+
+
+--
+-- Data for Name: views; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.views (id_view, time_view, ip_view, id_action, data_view) FROM stdin;
+\.
+
+
+--
+-- Data for Name: views_cats; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.views_cats (id, id_view, id_cat) FROM stdin;
+\.
+
+
+--
+-- Name: categories_id_cat_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categories_id_cat_seq', 6305, true);
+
+
+--
+-- Name: goods_in_carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.goods_in_carts_id_seq', 1333, true);
+
+
+--
+-- Name: views_cats_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.views_cats_id_seq', 6305, true);
+
+
+--
+-- Name: views_cats id; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.views_cats
+    ADD CONSTRAINT id PRIMARY KEY (id);
+
+
+--
+-- Name: actions id_action; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.actions
+    ADD CONSTRAINT id_action PRIMARY KEY (id_action);
+
+
+--
+-- Name: carts id_cart; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.carts
+    ADD CONSTRAINT id_cart PRIMARY KEY (id_cart);
+
+
+--
+-- Name: categories id_cat; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT id_cat PRIMARY KEY (id_cat);
+
+
+--
+-- Name: goods_in_carts id_gc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.goods_in_carts
+    ADD CONSTRAINT id_gc PRIMARY KEY (id);
+
+
+--
+-- Name: goods id_good; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.goods
+    ADD CONSTRAINT id_good PRIMARY KEY (id_good);
+
+
+--
+-- Name: users id_users; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT id_users PRIMARY KEY (id_user);
+
+
+--
+-- Name: views id_view; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.views
+    ADD CONSTRAINT id_view PRIMARY KEY (id_view);
+
+
+--
+-- Name: goods goods_id_cat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.goods
+    ADD CONSTRAINT goods_id_cat_fkey FOREIGN KEY (id_cat) REFERENCES public.categories(id_cat) NOT VALID;
+
+
+--
+-- Name: views id_action; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.views
+    ADD CONSTRAINT id_action FOREIGN KEY (id_action) REFERENCES public.actions(id_action) NOT VALID;
+
+
+--
+-- Name: goods_in_carts id_carts; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.goods_in_carts
+    ADD CONSTRAINT id_carts FOREIGN KEY (id_cart) REFERENCES public.carts(id_cart) NOT VALID;
+
+
+--
+-- Name: views_cats id_cat; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.views_cats
+    ADD CONSTRAINT id_cat FOREIGN KEY (id_cat) REFERENCES public.categories(id_cat) NOT VALID;
+
+
+--
+-- Name: goods_in_carts id_good; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.goods_in_carts
+    ADD CONSTRAINT id_good FOREIGN KEY (id_good) REFERENCES public.goods(id_good) NOT VALID;
+
+
+--
+-- Name: views_cats id_view; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.views_cats
+    ADD CONSTRAINT id_view FOREIGN KEY (id_view) REFERENCES public.views(id_view) NOT VALID;
+
+
+--
+-- Name: carts pay_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.carts
+    ADD CONSTRAINT pay_id_user_fkey FOREIGN KEY (id_user) REFERENCES public.users(id_user) NOT VALID;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
